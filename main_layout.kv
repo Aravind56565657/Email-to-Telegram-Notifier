@@ -1,0 +1,149 @@
+#:import dp kivy.metrics.dp
+
+<GmailTelegramApp>:
+    orientation: "vertical"
+    padding: dp(30)
+    spacing: dp(18)
+
+    canvas.before:
+        Color:
+            rgba: 0.1, 0.13, 0.2, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    Label:
+        text: "📧 Gmail   →   🤖 Gemini   →   📲 Telegram"
+        font_size: '30sp'
+        color: 0.82, 0.95, 1, 1
+        size_hint_y: None
+        height: dp(60)
+        bold: True
+        halign: 'center'
+        text_size: self.size
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(54)
+        pos_hint: {"center_x": 0.5}
+        padding: 0, 0
+        spacing: dp(5)
+
+        Button:
+            text: "🔗 Connect to Gmail"
+            font_size: '19sp'
+            background_color: 0.18, 0.57, 0.95, 1
+            color: 1, 1, 1, 1
+            bold: True
+            on_press: root.connect_gmail()
+
+    Label:
+        id: status
+        text: root.status_text
+        size_hint_y: None
+        height: dp(48)
+        font_size: '19sp'
+        color: 1, 0.88, 0.31, 1
+        bold: True
+        halign: "center"
+        text_size: self.size
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(60)
+        spacing: dp(18)
+        pos_hint: {"center_x": 0.5}
+        padding: 0, 0
+
+        Button:
+            text: "📧 Unread Mails"
+            font_size: '19sp'
+            background_color: 0.22, 0.65, 1, 1
+            color: 1, 1, 1, 1
+            bold: True
+            on_press: root.process_mails('unread')
+
+        Button:
+            text: "✅ Read Mails"
+            font_size: '19sp'
+            background_color: 0.32, 0.7, 0.38, 1
+            color: 1, 1, 1, 1
+            bold: True
+            on_press: root.process_mails('read')
+
+        Button:
+            text: "🛑 Spam Mails"
+            font_size: '19sp'
+            background_color: 0.8, 0.3, 0.3, 1
+            color: 1, 1, 1, 1
+            bold: True
+            on_press: root.process_mails('spam')
+
+    Widget:
+        size_hint_y: None
+        height: dp(8)
+
+    Label:
+        text: "🔥 Smart Prioritized Emails"
+        font_size: '17sp'
+        size_hint_y: None
+        height: dp(30)
+        color: 1, .89, .48, 1
+        bold: True
+        halign: 'left'
+        valign: 'middle'
+        padding: [dp(6), 0]
+
+    RecycleView:
+        id: mail_list
+        viewclass: 'MailItem'
+        size_hint_y: None
+        height: dp(270)
+        scroll_type: ['bars', 'content']
+        bar_width: dp(10)
+        RecycleBoxLayout:
+            default_size: None, dp(90)
+            default_size_hint: 1, None
+            size_hint_y: None
+            height: self.minimum_height
+            orientation: 'vertical'
+
+    Widget:
+        size_hint_y: None
+        height: dp(8)
+
+    Label:
+        text: "✨ Built with Kivy, Gemini, Gmail API & Telegram API"
+        font_size: '14sp'
+        size_hint_y: None
+        height: dp(23)
+        color: 0.7, 0.7, 0.8, 1
+        halign: 'center'
+        text_size: self.size
+
+# ----- MAIL DASHBOARD ITEM -----
+<MailItem@BoxLayout>:
+    summary_text: ""
+    bg_color: 0.14, 0.18, 0.25, 1
+    text_color: 1, 1, 1, 1
+    orientation: 'vertical'
+    padding: [dp(8), 0, dp(8), 0]
+    size_hint_y: None
+    height: dp(90)
+    canvas.before:
+        Color:
+            rgba: root.bg_color
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [dp(10),]
+    Label:
+        text: root.summary_text
+        font_size: '15sp'
+        color: root.text_color
+        bold: True
+        halign: 'left'
+        valign: 'middle'
+        text_size: self.width, None
